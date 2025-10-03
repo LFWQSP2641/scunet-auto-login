@@ -15,6 +15,8 @@
 
 顺序不分先后：
 
-JetBrains Golang IDE，感谢其出色的开发工具
-Golang，感谢其简洁高效的编程语言
+JetBrains Golang IDE，出色的开发工具
+
+Golang，简洁高效的编程语言
+
 sing-box，项目结构参考
