@@ -55,9 +55,6 @@ func (le *LoginExecutor) Execute(ctx context.Context, user LoginUserData, sessio
 		"passwordEncrypt": {"true"},
 	}
 
-	// 清除cookies避免风控
-	// 这里需要根据实际的HTTP客户端实现来清除cookies
-
 	// 构建请求
 	loginURL := C.LoginPostUrl
 	req, err := http.NewRequestWithContext(ctx, "POST", loginURL, strings.NewReader(loginData.Encode()))

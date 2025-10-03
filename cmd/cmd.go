@@ -2,6 +2,7 @@ package cmd
 
 import (
 	"context"
+	C "scunet-auto-login/pkg/constant"
 
 	"github.com/spf13/cobra"
 )
@@ -11,8 +12,9 @@ var (
 )
 
 var mainCommand = &cobra.Command{
-	Use:   "scunet-auto-login",
-	Short: "SCU 网络自动登录 CLI",
+	Use: "scunet-auto-login",
+	Short: "SCU 网络自动登录 CLI\n" +
+		"Version: " + C.Version,
 }
 
 func init() {
