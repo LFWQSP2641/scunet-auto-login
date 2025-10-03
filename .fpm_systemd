@@ -1,0 +1,4 @@
+-s dir
+--name scunet-auto-login
+--category net
+--license MIT
