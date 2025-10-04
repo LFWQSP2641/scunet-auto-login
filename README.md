@@ -4,7 +4,7 @@
 
 ## 待办事项
 
-- [ ] Android 界面客户端！
+- [x] [Android 界面客户端！](https://github.com/LFWQSP2641/scunet-auto-login-android)
 - [ ] 踢出已登录设备
 
 ## 技术说明
