@@ -2,8 +2,9 @@ package cmd
 
 import (
 	"fmt"
-	"scunet-auto-login/pkg/adapter"
-	scu "scunet-auto-login/pkg/schools/scu/auth"
+
+	A "github.com/LFWQSP2641/scunet-auto-login/pkg/adapter"
+	scu "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/auth"
 
 	"github.com/spf13/cobra"
 )
@@ -25,11 +26,10 @@ var loginCommand = &cobra.Command{
 			return
 		}
 
-		var auth adapter.Authenticator
+		var auth A.Authenticator
 		auth = scu.NewSCUAuthenticator()
 
-		var extra map[string]string
-		extra = map[string]string{
+		extra := map[string]string{
 			"service": service,
 		}
 
@@ -38,7 +38,5 @@ var loginCommand = &cobra.Command{
 			return
 		}
 		fmt.Println("登录流程完成")
-
-		return
 	},
 }

@@ -3,7 +3,8 @@ package crypto
 import (
 	"fmt"
 	"math/big"
-	S "scunet-auto-login/pkg/schools/scu/session"
+
+	S "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/session"
 )
 
 // RSAKeyPair 表示 RSA 密钥对（只支持加密）

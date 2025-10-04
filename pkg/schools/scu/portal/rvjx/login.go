@@ -7,11 +7,12 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
-	C "scunet-auto-login/pkg/schools/scu/constant"
-	scucry "scunet-auto-login/pkg/schools/scu/crypto"
-	scuerror "scunet-auto-login/pkg/schools/scu/error"
-	S "scunet-auto-login/pkg/schools/scu/session"
 	"strings"
+
+	C "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/constant"
+	scucry "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/crypto"
+	scuerror "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/error"
+	S "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/session"
 )
 
 type LoginUserData struct {

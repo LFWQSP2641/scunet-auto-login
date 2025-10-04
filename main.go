@@ -4,7 +4,8 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"scunet-auto-login/cmd"
+
+	"github.com/LFWQSP2641/scunet-auto-login/cmd"
 )
 
 func main() {

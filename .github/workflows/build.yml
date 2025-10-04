@@ -123,8 +123,8 @@ jobs:
           set -xeuo pipefail
           mkdir -p dist
           go build -v -trimpath -o dist/scunet-auto-login \
-          -ldflags '-s -buildid= -X scunet-auto-login/pkg/constant.Version=${{ needs.calculate_version.outputs.version }}' \
-          scunet-auto-login
+          -ldflags '-s -buildid= -X github.com/LFWQSP2641/scunet-auto-login/pkg/constant.Version=${{ needs.calculate_version.outputs.version }}' \
+          ./main.go
         env:
           CGO_ENABLED: "0"
           GOOS: ${{ matrix.os }}
@@ -142,8 +142,8 @@ jobs:
           export CXX="${CC}++"
           mkdir -p dist
           GOOS=$BUILD_GOOS GOARCH=$BUILD_GOARCH python ./scripts/build.py go build -v -trimpath -o dist/scunet-auto-login \
-          -ldflags '-s -buildid= -X scunet-auto-login/pkg/constant.Version=${{ needs.calculate_version.outputs.version }}' \
-          scunet-auto-login
+          -ldflags '-s -buildid= -X github.com/LFWQSP2641/scunet-auto-login/pkg/constant.Version=${{ needs.calculate_version.outputs.version }}' \
+          ./main.go
         env:
           CGO_ENABLED: "1"
           BUILD_GOOS: ${{ matrix.os }}

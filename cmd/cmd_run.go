@@ -6,9 +6,10 @@ import (
 	"io"
 	"os"
 	"path/filepath"
-	"scunet-auto-login/pkg/adapter"
-	scu "scunet-auto-login/pkg/schools/scu/auth"
-	o "scunet-auto-login/pkg/schools/scu/option"
+
+	A "github.com/LFWQSP2641/scunet-auto-login/pkg/adapter"
+	scu "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/auth"
+	o "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/option"
 
 	"github.com/spf13/cobra"
 )
@@ -43,11 +44,10 @@ var runCmd = &cobra.Command{
 			return
 		}
 
-		var auth adapter.Authenticator
+		var auth A.Authenticator
 		auth = scu.NewSCUAuthenticator()
 
-		var extra map[string]string
-		extra = map[string]string{
+		extra := map[string]string{
 			"service": svc,
 		}
 
@@ -56,8 +56,6 @@ var runCmd = &cobra.Command{
 			return
 		}
 		fmt.Println("登录流程完成")
-
-		return
 	},
 }
 

@@ -2,7 +2,8 @@ package cmd
 
 import (
 	"context"
-	C "scunet-auto-login/pkg/constant"
+
+	C "github.com/LFWQSP2641/scunet-auto-login/pkg/constant"
 
 	"github.com/spf13/cobra"
 )

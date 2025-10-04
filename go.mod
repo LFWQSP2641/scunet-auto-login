@@ -1,6 +1,6 @@
-module scunet-auto-login
+module github.com/LFWQSP2641/scunet-auto-login
 
-go 1.22
+go 1.25.1
 
 require github.com/spf13/cobra v1.10.1
 

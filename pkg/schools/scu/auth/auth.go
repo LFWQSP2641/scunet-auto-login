@@ -3,10 +3,11 @@ package auth
 import (
 	"context"
 	"fmt"
-	C "scunet-auto-login/pkg/schools/scu/constant"
-	"scunet-auto-login/pkg/schools/scu/portal/rvjx"
-	S "scunet-auto-login/pkg/schools/scu/session"
 	"sync"
+
+	C "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/constant"
+	"github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/portal/rvjx"
+	S "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/session"
 )
 
 type SCUAuthenticator struct {

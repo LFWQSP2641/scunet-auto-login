@@ -4,8 +4,9 @@ import (
 	"context"
 	"io"
 	"net/http"
-	scuerror "scunet-auto-login/pkg/schools/scu/error"
-	S "scunet-auto-login/pkg/schools/scu/session"
+
+	scuerror "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/error"
+	S "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/session"
 )
 
 // Discovery 预认证发现器 (相当于Python中的getQueryString)
