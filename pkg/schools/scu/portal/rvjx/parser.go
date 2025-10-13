@@ -47,3 +47,20 @@ func ExtractQueryStringFromHTML(html string) (string, error) {
 
 	return html[startIndex : startIndex+endIndex], nil
 }
+
+func ExtractErrorMessage(responseText string) string {
+	re := regexp.MustCompile(`"message":"([^"]+)"`)
+	match := re.FindStringSubmatch(responseText)
+	if len(match) > 1 {
+		return match[1]
+	}
+
+	// 回退方法
+	startIndex := strings.Index(responseText, `"message"`) + 11
+	endIndex := strings.Index(responseText, `","forwordurl"`)
+	if startIndex > 10 && endIndex > startIndex {
+		return responseText[startIndex:endIndex]
+	}
+
+	return "未知错误"
+}

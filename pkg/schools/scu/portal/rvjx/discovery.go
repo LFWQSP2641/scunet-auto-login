@@ -9,7 +9,7 @@ import (
 	S "github.com/LFWQSP2641/scunet-auto-login/pkg/schools/scu/session"
 )
 
-// Discovery 预认证发现器 (相当于Python中的getQueryString)
+// Discovery 预认证发现器
 type Discovery struct {
 	baseUrl string
 }
@@ -29,18 +29,17 @@ func (d *Discovery) GetQueryString(ctx context.Context) (string, error) {
 		return "", err
 	}
 
-	// 设置不自动跟随重定向
 	client := &http.Client{}
 
 	resp, err := client.Do(req)
 	if err != nil {
-		return "", scuerror.ErrLoginConnection
+		return "", scuerror.ErrConnection
 	}
 	defer resp.Body.Close()
 
 	bodyBytes, err := io.ReadAll(resp.Body)
 	if err != nil {
-		return "", scuerror.ErrLoginConnection
+		return "", scuerror.ErrConnection
 	}
 
 	bodyString := string(bodyBytes)

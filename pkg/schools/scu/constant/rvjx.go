@@ -5,6 +5,7 @@ const RSAModulus = "94dd2a8675fb779e6b9f7103698634cd400f27a154afa67af6166a43fc26
 
 const MainUrl = "http://192.168.2.135/"
 const LoginPostUrl = MainUrl + "eportal/InterFace.do?method=login"
+const LogoutPostUrl = MainUrl + "eportal/InterFace.do?method=logout"
 
 const (
 	Accept         = "*/*"

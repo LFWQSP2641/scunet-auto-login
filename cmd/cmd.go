@@ -10,6 +10,10 @@ import (
 
 var (
 	globalCxt context.Context
+
+	username string
+	password string
+	service  string
 )
 
 var mainCommand = &cobra.Command{
@@ -24,8 +28,12 @@ func init() {
 	loginCommand.PersistentFlags().StringVarP(&username, "username", "u", "", "用户名")
 	loginCommand.PersistentFlags().StringVarP(&password, "password", "p", "", "密码")
 	loginCommand.PersistentFlags().StringVarP(&service, "service", "s", "", "服务标识")
+	logoutCommand.PersistentFlags().StringVarP(&username, "username", "u", "", "用户名")
+	logoutCommand.PersistentFlags().StringVarP(&password, "password", "p", "", "密码")
+	logoutCommand.PersistentFlags().StringVarP(&service, "service", "s", "", "服务标识")
 
 	mainCommand.AddCommand(loginCommand)
+	mainCommand.AddCommand(logoutCommand)
 	mainCommand.AddCommand(runCmd)
 }
 

@@ -69,3 +69,23 @@ func (a *SCUAuthenticator) Login(ctx context.Context, username, password string,
 
 	return nil
 }
+
+func (a *SCUAuthenticator) Logout(ctx context.Context, username, password string, extra map[string]string) error {
+	select {
+	case <-ctx.Done():
+		return ctx.Err()
+	default:
+	}
+	// 这里打印以示数据已传递；生产环境应移除或使用日志
+	fmt.Printf("开始登出")
+
+	a.mu.Lock()
+	defer a.mu.Unlock()
+
+	err := rvjx.Logout(ctx)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

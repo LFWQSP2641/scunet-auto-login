@@ -72,7 +72,7 @@ func (le *LoginExecutor) Execute(ctx context.Context, user LoginUserData, sessio
 	client := &http.Client{}
 	resp, err := client.Do(req)
 	if err != nil {
-		return scuerror.ErrLoginConnection
+		return scuerror.ErrConnection
 	}
 	defer resp.Body.Close()
 
@@ -87,15 +87,12 @@ func (le *LoginExecutor) Execute(ctx context.Context, user LoginUserData, sessio
 
 // parseLoginResponse 解析登录响应
 func (le *LoginExecutor) parseLoginResponse(responseText string) error {
-	// 处理Unicode编码
-	responseText = strings.ReplaceAll(responseText, "\\u", "\\u")
-
 	if strings.Contains(responseText, `"result":"success"`) {
 		return nil
 	}
 
 	// 登录失败，提取错误信息
-	errorMsg := le.extractErrorMessage(responseText)
+	errorMsg := ExtractErrorMessage(responseText)
 
 	// 根据错误信息返回特定异常
 	if strings.Contains(errorMsg, "在线用户数量上限") {
@@ -126,56 +123,3 @@ func (le *LoginExecutor) extractUserIndex(responseText string) string {
 
 	return ""
 }
-
-// extractErrorMessage 提取错误信息
-func (le *LoginExecutor) extractErrorMessage(responseText string) string {
-	re := regexp.MustCompile(`"message":"([^"]+)"`)
-	match := re.FindStringSubmatch(responseText)
-	if len(match) > 1 {
-		return match[1]
-	}
-
-	// 回退方法
-	startIndex := strings.Index(responseText, `"message"`) + 11
-	endIndex := strings.Index(responseText, `","forwordurl"`)
-	if startIndex > 10 && endIndex > startIndex {
-		return responseText[startIndex:endIndex]
-	}
-
-	return "未知错误"
-}
-
-//// Logout 执行登出操作
-//func (le *LoginExecutor) Logout(ctx context.Context, session *auth.Session) error {
-//	if session == nil || session.UserIndex == "" {
-//		return auth.ErrInvalidSession
-//	}
-//
-//	logoutURL := le.portal.baseURL + "eportal/InterFace.do?method=logout"
-//
-//	req, err := http.NewRequestWithContext(ctx, "POST", logoutURL, nil)
-//	if err != nil {
-//		return err
-//	}
-//
-//	// 设置请求头
-//	req.Header.Set("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8")
-//	req.Header.Set("User-Agent", le.portal.GetOptions().UserAgent)
-//	req.Header.Set("Accept", "*/*")
-//	req.Header.Set("Accept-Encoding", "gzip, deflate")
-//
-//	// 发送请求
-//	client := le.portal.GetClient()
-//	resp, err := client.Do(req)
-//	if err != nil {
-//		return auth.ErrLoginConnection
-//	}
-//	defer resp.Body.Close()
-//
-//	// 检查响应状态
-//	if resp.StatusCode != http.StatusOK {
-//		return auth.ErrLogoutFailed
-//	}
-//
-//	return nil
-//}
