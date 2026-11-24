@@ -70,23 +70,23 @@ jobs:
     strategy:
       matrix:
         include:
-          - { os: linux, arch: amd64, debian: amd64, rpm: x86_64, pacman: x86_64, openwrt: "x86_64" }
-          - { os: linux, arch: "386", go386: sse2, debian: i386, rpm: i386, openwrt: "i386_pentium4" }
-          - { os: linux, arch: "386", go386: softfloat, openwrt: "i386_pentium-mmx" }
-          - { os: linux, arch: arm64, debian: arm64, rpm: aarch64, pacman: aarch64, openwrt: "aarch64_cortex-a53 aarch64_cortex-a72 aarch64_cortex-a76 aarch64_generic" }
-          - { os: linux, arch: arm, goarm: "5", openwrt: "arm_arm926ej-s arm_cortex-a7 arm_cortex-a9 arm_fa526 arm_xscale" }
-          - { os: linux, arch: arm, goarm: "6", debian: armel, rpm: armv6hl, openwrt: "arm_arm1176jzf-s_vfp" }
-          - { os: linux, arch: arm, goarm: "7", debian: armhf, rpm: armv7hl, pacman: armv7hl, openwrt: "arm_cortex-a5_vfpv4 arm_cortex-a7_neon-vfpv4 arm_cortex-a7_vfpv4 arm_cortex-a8_vfpv3 arm_cortex-a9_neon arm_cortex-a9_vfpv3-d16 arm_cortex-a15_neon-vfpv4" }
-          - { os: linux, arch: mips, gomips: softfloat, openwrt: "mips_24kc mips_4kec mips_mips32" }
-          - { os: linux, arch: mipsle, gomips: hardfloat, debian: mipsel, rpm: mipsel, openwrt: "mipsel_24kc_24kf" }
-          - { os: linux, arch: mipsle, gomips: softfloat, openwrt: "mipsel_24kc mipsel_74kc mipsel_mips32" }
-          - { os: linux, arch: mips64, gomips: softfloat, openwrt: "mips64_mips64r2 mips64_octeonplus" }
-          - { os: linux, arch: mips64le, gomips: hardfloat, debian: mips64el, rpm: mips64el }
-          - { os: linux, arch: mips64le, gomips: softfloat, openwrt: "mips64el_mips64r2" }
-          - { os: linux, arch: s390x, debian: s390x, rpm: s390x }
-          - { os: linux, arch: ppc64le, debian: ppc64el, rpm: ppc64le }
-          - { os: linux, arch: riscv64, debian: riscv64, rpm: riscv64, openwrt: "riscv64_generic" }
-          - { os: linux, arch: loong64, debian: loongarch64, rpm: loongarch64, openwrt: "loongarch64_generic" }
+          - { os: linux, arch: amd64 }
+          - { os: linux, arch: "386", go386: sse2 }
+          - { os: linux, arch: "386", go386: softfloat }
+          - { os: linux, arch: arm64 }
+          - { os: linux, arch: arm, goarm: "5" }
+          - { os: linux, arch: arm, goarm: "6" }
+          - { os: linux, arch: arm, goarm: "7" }
+          - { os: linux, arch: mips, gomips: softfloat }
+          - { os: linux, arch: mipsle, gomips: hardfloat }
+          - { os: linux, arch: mipsle, gomips: softfloat }
+          - { os: linux, arch: mips64, gomips: softfloat }
+          - { os: linux, arch: mips64le, gomips: hardfloat }
+          - { os: linux, arch: mips64le, gomips: softfloat }
+          - { os: linux, arch: s390x }
+          - { os: linux, arch: ppc64le }
+          - { os: linux, arch: riscv64 }
+          - { os: linux, arch: loong64 }
 
           - { os: windows, arch: amd64 }
           # - { os: windows, arch: amd64, legacy_win7: true, legacy_name: "windows-7" }
@@ -162,62 +162,6 @@ jobs:
             DIR_NAME="${DIR_NAME}-legacy-${{ matrix.legacy_name }}"
           fi
           echo "DIR_NAME=${DIR_NAME}" >> "${GITHUB_ENV}"
-          PKG_VERSION="${{ needs.calculate_version.outputs.version }}"
-          PKG_VERSION="${PKG_VERSION//-/\~}"
-          echo "PKG_VERSION=${PKG_VERSION}" >> "${GITHUB_ENV}"
-      - name: Package DEB
-        if: matrix.debian != ''
-        run: |
-          set -xeuo pipefail
-          sudo gem install fpm
-          sudo apt-get update
-          sudo apt-get install -y debsigs
-          cp .fpm_systemd .fpm
-          fpm -t deb \
-            -v "$PKG_VERSION" \
-            -p "dist/scunet-auto-login_${{ needs.calculate_version.outputs.version }}_${{ matrix.os }}_${{ matrix.debian }}.deb" \
-            --architecture ${{ matrix.debian }} \
-            dist/scunet-auto-login=/usr/bin/scunet-auto-login
-      - name: Package RPM
-        if: matrix.rpm != ''
-        run: |-
-          set -xeuo pipefail
-          sudo gem install fpm
-          cp .fpm_systemd .fpm
-          fpm -t rpm \
-            -v "$PKG_VERSION" \
-            -p "dist/scunet-auto-login_${{ needs.calculate_version.outputs.version }}_${{ matrix.os }}_${{ matrix.rpm }}.rpm" \
-            --architecture ${{ matrix.rpm }} \
-            dist/scunet-auto-login=/usr/bin/scunet-auto-login
-      - name: Package Pacman
-        if: matrix.pacman != ''
-        run: |-
-          set -xeuo pipefail
-          sudo gem install fpm
-          sudo apt-get update
-          sudo apt-get install -y libarchive-tools
-          cp .fpm_systemd .fpm
-          fpm -t pacman \
-            -v "$PKG_VERSION" \
-            -p "dist/scunet-auto-login_${{ needs.calculate_version.outputs.version }}_${{ matrix.os }}_${{ matrix.pacman }}.pkg.tar.zst" \
-            --architecture ${{ matrix.pacman }} \
-            dist/scunet-auto-login=/usr/bin/scunet-auto-login
-      - name: Package OpenWrt
-        if: matrix.openwrt != ''
-        run: |-
-          set -xeuo pipefail
-          sudo gem install fpm
-          cp .fpm_systemd .fpm
-          fpm -t deb \
-            -v "$PKG_VERSION" \
-            -p "dist/openwrt.deb" \
-            --architecture all \
-            dist/scunet-auto-login=/usr/bin/scunet-auto-login
-          for architecture in ${{ matrix.openwrt }}; do
-            chmod +x .github/deb2ipk.sh
-            .github/deb2ipk.sh "$architecture" "dist/openwrt.deb" "dist/scunet-auto-login_${{ needs.calculate_version.outputs.version }}_openwrt_${architecture}.ipk"
-          done
-          rm "dist/openwrt.deb"
       - name: Archive
         run: |
           set -xeuo pipefail
